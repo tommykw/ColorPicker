@@ -25,4 +25,15 @@ class ColorPicker constructor(context: Context,
         style = Paint.Style.STROKE
         strokeCap = Paint.Cap.ROUND
     }
+
+    private val pickPaint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val pick = 0.5f
+    private val verticalGridSize = 0f
+    private val rainbowBaseline = 0f
+    private var showPreview = false
+    private val listener: OnColorChangedListener? = null
+
+    interface OnColorChangedListener {
+        fun onColorChanged(color: Int)
+    }
 }
