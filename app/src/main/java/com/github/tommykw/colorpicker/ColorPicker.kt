@@ -19,4 +19,10 @@ class ColorPicker constructor(context: Context,
         style = Paint.Style.STROKE
         strokeCap = Paint.Cap.ROUND
     }
+
+    private val rainbowBackgrondPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.WHITE
+        style = Paint.Style.STROKE
+        strokeCap = Paint.Cap.ROUND
+    }
 }
