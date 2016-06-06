@@ -1,10 +1,9 @@
 package com.github.tommykw.colorpicker
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
+import android.graphics.*
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 
 /**
@@ -29,8 +28,8 @@ class ColorPicker constructor(context: Context,
 
     private val pickPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val pick = 0.5f
-    private val verticalGridSize = 0f
-    private val rainbowBaseline = 0f
+    private var verticalGridSize = 0f
+    private var rainbowBaseline = 0f
     private var showPreview = false
     private val listener: OnColorChangedListener? = null
 
@@ -41,7 +40,7 @@ class ColorPicker constructor(context: Context,
                 rainbowBaseline,
                 verticalGridSize.toInt() / 2,
                 verticalGridSize * 0.5f,
-                color
+                color()
         )
         if (showPreview) {
             drawColorAim(
@@ -49,7 +48,7 @@ class ColorPicker constructor(context: Context,
                     verticalGridSize,
                     (verticalGridSize / 1.4f).toInt(),
                     verticalGridSize * 0.7f,
-                    color
+                    color()
             )
         }
     }
@@ -69,7 +68,31 @@ class ColorPicker constructor(context: Context,
         canvas.drawCircle(circleCenterX, baseLine, size - strokeSize, pickPaint.apply { this.color = color })
     }
 
-    fun color: Int get() = interpreterColor(pick, colors)
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        val height = measuredHeight
+        val width = measuredWidth
+        val shader = LinearGradient(
+                height / 4.0f,
+                height / 2.0f,
+                width - height / 4.0f,
+                height / 2.0f,
+                colors,
+                null,
+                Shader.TileMode.CLAMP
+        )
+        verticalGridSize = height / 3f
+        rainbowPaint.shader = shader
+        rainbowBaseline = verticalGridSize / 2f + verticalGridSize * 2
+    }
+
+    override fun onTouchEvent(event: MotionEvent) : Boolean{
+        return true
+    }
+
+    fun color(): Int {
+        return Utils.interpreterColor(pick, colors)
+    }
 
     interface OnColorChangedListener {
         fun onColorChanged(color: Int)
