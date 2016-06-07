@@ -27,11 +27,11 @@ class ColorPicker constructor(context: Context,
     }
 
     private val pickPaint = Paint(Paint.ANTI_ALIAS_FLAG)
-    private val pick = 0.5f
+    private var pick = 0.5f
     private var verticalGridSize = 0f
     private var rainbowBaseline = 0f
     private var showPreview = false
-    private val listener: OnColorChangedListener? = null
+    private var listener: OnColorChangedListener? = null
 
     override fun onDraw(canvas: Canvas) {
         drawPicker(canvas)
@@ -87,11 +87,29 @@ class ColorPicker constructor(context: Context,
     }
 
     override fun onTouchEvent(event: MotionEvent) : Boolean{
+        val action = event.action
+        if (action == MotionEvent.ACTION_MOVE || action == MotionEvent.ACTION_DOWN) {
+            pick = event.x / measuredWidth.toFloat()
+            if (pick < 0) {
+                pick = 0f
+            } else if (pick > 1) {
+                pick = 1f
+            }
+            listener?.onColorChanged(color())
+            showPreview = true
+        } else if (action == MotionEvent.ACTION_UP) {
+            showPreview = false
+        }
+        postInvalidateOnAnimation()
         return true
     }
 
     fun color(): Int {
         return Utils.interpreterColor(pick, colors)
+    }
+
+    fun setOnColorChangedListener(listener: OnColorChangedListener) {
+        this.listener = listener
     }
 
     interface OnColorChangedListener {
