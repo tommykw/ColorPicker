@@ -9,9 +9,9 @@ import android.view.View
 /**
  * Created by tommy on 2016/06/03.
  */
-class ColorPicker constructor(context: Context,
-                              attrs: AttributeSet?,
-                              defStyleAttr: Int) : View(context, attrs, defStyleAttr) {
+class ColorPicker(context: Context,
+                  attrs: AttributeSet?,
+                  defStyleAttr: Int) : View(context, attrs, defStyleAttr) {
 
     private val colors = intArrayOf(Color.RED, Color.GREEN, Color.BLUE)
     private val strokeSize = 2 * context.resources.displayMetrics.density
