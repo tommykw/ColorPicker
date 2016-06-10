@@ -10,7 +10,7 @@ import android.view.View
  * Created by tommy on 2016/06/03.
  */
 class ColorPicker(context: Context,
-                  attrs: AttributeSet?,
+                  attrs: AttributeSet? = null,
                   defStyleAttr: Int) : View(context, attrs, defStyleAttr) {
 
     private val colors = intArrayOf(Color.RED, Color.GREEN, Color.BLUE)
