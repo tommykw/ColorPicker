@@ -22,7 +22,7 @@ class Utils {
             p -= i
 
             val c0 = colors[i]
-            val c1 = colors[i - 1]
+            val c1 = colors[i + 1]
             val a = avg(Color.alpha(c0), Color.alpha(c1), p)
             val r = avg(Color.red(c0), Color.red(c1), p)
             val g = avg(Color.green(c0), Color.green(c1), p)
